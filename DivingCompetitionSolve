@@ -1,0 +1,69 @@
+/************************************************************
+Diego Patterson
+9/14/2024
+
+This is supposed to take judges scores and add them up for
+a total based on diving competitions regulation.
+
+It will remove the highest and lowest scores and add up the 
+others. Then it will multiply the sum of the scores(minus 
+highest and lowest) by 0.6 and the degree of difficulty of 
+the dive. Finally it will print the results and the total 
+score
+
+************************************************************/
+
+#include <iostream>
+
+int main()
+{
+    double roundJudgeTotal[2];
+    double roundGrossTotal[2];
+    //                              round1                                      round2
+    double round[2][7] = {{6.0, 5.0, 6.7, 7.8, 5.6, 8.9, 7.6 },{6.0, 5.0, 6.5, 7.8, 5.6, 8.8, 5.0}};
+
+    double temp;
+    for(int i = 0; i <= 1; i++) {
+        for(int j = 0; j < 7-1; j++) {
+            for(int k = 0; k < 7 - j -1; k++) {
+                if(round[i][k] > round[i][k+1]){
+                    temp = round[i][k];
+                    round[i][k] = round[i][k + 1];
+                    round[i][k+1] = temp;
+                }
+            }
+        }
+        temp = 0;
+    }
+
+    //for testing the sorting
+    // for(double element : round[0]){
+    //     std::cout << element << " ";
+    // }
+    //                  1     2
+    double degDif[2] = {2.3 , 2.1};
+
+    for(int i = 1; i <= 2; i++){
+        for(int j = 1; j < 6; j++){
+            temp += round[i-1][j];
+        }
+        if(i == 1) { roundGrossTotal[0] = temp; }else { roundGrossTotal[1] = temp;}
+        temp = 0;
+    }
+
+    //For Testing the roundGrossTotal
+    // for(int i = 0; i <= 1; i++) {
+    //     std::cout << "Round " << i+1 << " total is: " <<  roundGrossTotal[i] << '\n';
+    // }
+
+    for(int i = 0; i <= 1; i++){
+        roundJudgeTotal[i] = (roundGrossTotal[i] * 0.6) * degDif[i];
+    }
+
+    for(int i = 0; i <= 1; i++) {
+        std::cout << "Round " << i+1 << " total is: " <<  roundJudgeTotal[i] << '\n';
+    }
+
+    std::cout << "Final total score is: " << roundJudgeTotal[0] + roundJudgeTotal[1] << '\n';
+    return 0;
+}
